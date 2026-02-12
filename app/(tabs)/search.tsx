@@ -31,11 +31,6 @@ const Search = () => {
       const timeoutId = setTimeout(async () => {
         if (searchQuery.trim()) {
           await loadMovies();
-
-          // Call updateSearchCount only if there are results
-          if (movies?.length! > 0 && movies?.[0]) {
-            await updateSearchCount(searchQuery, movies[0]);
-          }
         } else {
           reset();
         }
@@ -46,6 +41,17 @@ const Search = () => {
 
     executeEffect();
   }, [searchQuery]);
+
+  useEffect(() => {
+    if (movies?.length > 0 && searchQuery.trim()) {
+      // Find the movie that best matches the search query
+      const matchedMovie =
+        movies.find((movie: { title: string }) =>
+          movie.title.toLowerCase().includes(searchQuery.toLowerCase()),
+        ) || movies[0];
+      updateSearchCount(searchQuery, matchedMovie);
+    }
+  }, [movies, searchQuery]);
 
   return (
     <View className="flex-1 bg-primary">
