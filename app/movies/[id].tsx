@@ -38,10 +38,12 @@ const MovieDetails = () => {
         <View>
           <Image
             source={{
-              uri: `https://image.tmdb.org/t/p/w500${movie?.poster_path}`,
+              uri: movie?.poster_path
+                ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+                : "https://via.placeholder.com/600x800/1a1a1a/ffffff.png",
             }}
             className="w-full h-[550px]"
-            resizeMode="stretch"
+            resizeMode="cover"
           />
         </View>
 
